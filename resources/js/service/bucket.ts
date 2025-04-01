@@ -1,16 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
 export const supabaseUrl = 'https://rbuqmnhadlqtaxfebjzj.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY; 
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-let userRole = "guest"; // Default role
+export const getUserRole = async () => {
+    try {
+        const { data: users, error } = await supabase.from('users').select('role').single();
+        if (error) {
+            console.error('Error fetching user role:', error);
+            return 'user'; // Default role on error
+        }
+        return users?.role || 'user';
+    } catch (error) {
+        console.error('Error fetching user role:', error);
+        return 'user'; // Default role on exception
+    }
+};
 
-(async () => {
-  let { data: users } = await supabase.from('users').select('role').single();
-  userRole = users?.role || "guest";
-})();
-
-export { supabase, userRole };
+export { supabase };
 export default supabase;

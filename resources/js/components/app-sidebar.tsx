@@ -22,8 +22,8 @@ const mainNavItems: NavItem[] = [
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Home',
-        url: '/',
+        title: 'landing',
+        url: '/landing',
         icon: Home,
     }
 ];

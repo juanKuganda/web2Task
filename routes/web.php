@@ -10,6 +10,7 @@ Route::get('/', function () {
 })->name('login');
 
 Route::middleware(['auth', 'verified' , 'role:admin'])->group(function () {
+    
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
@@ -24,19 +25,16 @@ Route::middleware(['auth', 'verified' , 'role:admin'])->group(function () {
             'gallery' => $gallery
         ]);
     })->name('gallery.edit');
+
     Route::post('/upload', [GalleryController::class, 'store'])->name('image.store');
     
-    Route::get('landing/admin', function () {
-        return Inertia::render('landing');
-    })->name('landing');
-    Route::apiResource('api/v1/gallery', GalleryController::class);
-
 });
 
 Route::middleware(['auth', 'verified' ])->group(function () {
     Route::get('landing', function () {
         return Inertia::render('landing');
     })->name('landing');
+    
     Route::apiResource('api/v1/gallery', GalleryController::class);
 });
 

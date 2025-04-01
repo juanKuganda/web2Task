@@ -1,16 +1,27 @@
 import type React from 'react';
 import { Library } from 'lucide-react';
 import { NavbarProps } from '@/pages/type';
-import {userRole} from '@/service/bucket';
+import {getUserRole} from '@/service/bucket';
+import { useEffect, useState } from 'react';
 
 
 const  Navbar: React.FC<NavbarProps> = ({ logo, navLinks = [] }) => {
+     const [userRole, setUserRole] = useState<string>('user');
+
+     useEffect(() => {
+         const fetchUserRole = async () => {
+             const role = await getUserRole();
+             setUserRole(role);
+         };
+
+         fetchUserRole();
+     }, []);
     
     return (
         <nav className="fixed top-0 right-0 left-0 z-50 bg-white shadow-md dark:bg-black">
             <div className="container mx-auto flex items-center justify-between px-4 py-3">
                 <div className="flex items-center">
-                    <a href="/" className="text-primary text-xl font-bold">
+                    <a href="/landing" className="text-primary text-xl font-bold">
                         <Library name={logo} size={24} />
                     </a>
                 </div>
@@ -28,6 +39,7 @@ const  Navbar: React.FC<NavbarProps> = ({ logo, navLinks = [] }) => {
                 <div>
                     
                   {userRole === 'admin' && (
+                    
                         <a href="/dashboard" className="bg-primary hover:bg-primary-dark rounded-md px-4 py-1 text-white transition-colors duration-300 dark:text-neutral-900">
                             Admin
                         </a>

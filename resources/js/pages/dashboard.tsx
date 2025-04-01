@@ -11,6 +11,7 @@ import { Head, router } from '@inertiajs/react';
 import { Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { GalleryData } from './type';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -33,7 +34,6 @@ export default function Dashboard() {
     });
 
     useEffect(() => {
-        
         GalleryService().then((res) => {
             setData(res);
         });
@@ -53,12 +53,17 @@ export default function Dashboard() {
     };
 
     const handleDelete = (id: number) => {
+   
         if (confirm('Are you sure you want to delete this image?')) {
             router.delete(`/api/v1/gallery/${id}`, {
                 onSuccess: () => {
                     GalleryService().then((res) => {
                         setData(res);
                     });
+                    toast.success('Image deleted successfully',{
+                    description: 'The image has been removed from the gallery.',
+                    duration: 2000,
+                });
                 },
             });
         }
@@ -83,6 +88,7 @@ export default function Dashboard() {
         formDataToSend.append('title', formData.title);
         formDataToSend.append('description', formData.description);
         formDataToSend.append('alt', formData.alt);
+   
 
         // Use PUT method for update
         router.post(
@@ -100,19 +106,28 @@ export default function Dashboard() {
                     GalleryService().then((res) => {
                         setData(res);
                     });
+                   
 
                     // Reset success message after 2 seconds
                     setTimeout(() => {
                         setUpdateSuccess(false);
+                                  toast.success('Image updated successfully', {
+                                      description: 'The image details have been updated.',
+                                      duration: 2000,
+                                  });
                         setIsEditDialogOpen(false);
                     }, 2000);
+                       
                 },
                 onError: (errors) => {
                     setIsSubmitting(false);
                     console.error('Update failed:', errors);
                 },
+                
             },
+            
         );
+
     };
 
     const closeDialog = () => {
@@ -138,7 +153,7 @@ export default function Dashboard() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data?.map((item,index) => (
+                        {data?.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">{index + 1}</TableCell>
                                 <TableCell>{item.title}</TableCell>
@@ -187,7 +202,7 @@ export default function Dashboard() {
                         <div className="space-y-4 py-4">
                             {editingItem && (
                                 <div className="mb-4">
-                                    <img src={`/storage/${editingItem.src}`} alt={editingItem.alt} className="h-40 w-full rounded-md object-cover" />
+                                    <img src={editingItem.src} alt={editingItem.alt} className="h-40 w-full rounded-md object-cover" />
                                 </div>
                             )}
 

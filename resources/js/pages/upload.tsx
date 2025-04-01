@@ -9,6 +9,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { Check, Upload, X } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -89,11 +90,12 @@ export default function Dashboard() {
                 alt: formData.alt,
                 image_url: imageUrl, // Simpan URL gambar di database Laravel
             };
-            console.log('cuman sampe sini');
+   
+  
 
             router.post('/upload', formDataToSend, {
                 onSuccess: () => {
-                    console.log('sampe sini');
+                  
                     setUploading(false);
                     setUploadSuccess(true);
                     setTimeout(() => {
@@ -106,6 +108,10 @@ export default function Dashboard() {
                     console.error('Upload failed:', errors);
                 },
             });
+                     toast.success('Image uploaded successfully!', {
+                         description: 'Your image has been uploaded successfully.',
+                         duration: 3000,
+                     });
         } catch (error) {
             console.error('Error uploading file:', error);
             setUploading(false);

@@ -25,11 +25,10 @@ class Role
 
         if ($role === 'admin' && $userRole === 'admin') {
             return $next($request);
-        }else if($role === 'user' || $userRole === 'user'){
-            abort(403, 'Unauthorized action. Admin access required.');
-        }else{
-            abort(403, 'Unauthorized action. your acces is not valid    .');
+        } else if ($role === 'user' && $userRole === 'user') {
+            return $next($request); // Allow users to access user-specific routes
+        } else {
+            abort(403, 'Unauthorized action. You do not have the required role.');
         }
-        
     }
 }

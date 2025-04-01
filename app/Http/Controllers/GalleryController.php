@@ -21,7 +21,7 @@ class GalleryController extends Controller
         try {
             $galleries = gallery::all();
             return response()->json($galleries);
-        } catch (\Exception $e) { 
+        } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
@@ -86,20 +86,9 @@ class GalleryController extends Controller
         ]);
 
         // Check if there's a new image
-        if ($request->hasFile('image')) {
-            // Validate the new image
-            $request->validate([
-                'image' => 'required|image|max:5120',
-            ]);
-
-            // Delete old image if it exists
-            if ($gallery->src && file_exists(storage_path('app/public/' . $gallery->src))) {
-                unlink(storage_path('app/public/' . $gallery->src));
-            }
-
-            // Store new image
-            $path = $request->file('image')->store('images', 'public');
-            $gallery->src = $path;
+        if ($request->filled('image_url')) {
+            // Update with new Supabase image URL
+            $gallery->src = $request->image_url;
         }
 
         // Update other fields
@@ -108,7 +97,7 @@ class GalleryController extends Controller
         $gallery->alt = $request->alt ?? $gallery->alt;
         $gallery->save();
 
-        return response()->json($gallery);
+        return; 
     }
 
     /**
@@ -116,16 +105,11 @@ class GalleryController extends Controller
      */
     public function destroy(gallery $gallery)
     {
-        // Delete the image file from storage
-        if ($gallery->src && file_exists(storage_path('app/public/' . $gallery->src))) {
-            unlink(storage_path('app/public/' . $gallery->src));
-        }
+        // No need to delete physical files as they're stored in Supabase
 
         // Delete from database
         $gallery->delete();
 
-
-        return response()->json(['message' => 'Image deleted successfully']);
+        return;
     }
-
 }
