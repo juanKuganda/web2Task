@@ -7,16 +7,15 @@ import type React from 'react';
 
 // Navigation links
 const navLinks = [
-    { name: 'login', href: '/' },
-    { name: 'Gallery', href: '/dashboard' },
+    { name: 'Gallery', href: '#gallery' },
     { name: 'About', href: '/about' },
 ];
 
 // Footer links
 const footerLinks = [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Privacy Policy', href: 'https://www.instagram.com/jnpblokg_/' },
+    { name: 'Terms of Service', href: 'https://www.instagram.com/jnpblokg_/' },
+    { name: 'Contact', href: 'https://www.instagram.com/jnpblokg_/' },
 ];
 
 // Also update the logo to use a placeholder
@@ -27,8 +26,8 @@ const App: React.FC = () => {
 
             <main className="flex-grow">
                 <Hero
-                    headline="Your Memories, Your Museum"
-                    subtext="Create and curate your personal digital museum. Showcase your art, memories, and collections in a beautiful online space."
+                    headline="My Digital Museum: A Journey Through Time"
+                    subtext="A visual journey through my cherished memories, shared for you to experience."
                 />
             </main>
 

@@ -9,7 +9,7 @@ const Footer: React.FC<FooterProps> = ({ links = [], copyrightText }) => {
                 {links.length > 0 && (
                     <div className="mb-4 flex flex-wrap justify-center gap-6">
                         {links.map((link) => (
-                            <a key={link.name} href={link.href} className="hover:text-primary transition-colors duration-300">
+                            <a key={link.name} href={link.href} target='_blank' className="hover:text-primary transition-colors duration-300">
                                 {link.name}
                             </a>
                         ))}

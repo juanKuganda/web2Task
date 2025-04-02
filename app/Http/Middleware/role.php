@@ -22,11 +22,12 @@ class Role
             return redirect()->route('login');
         }
 
-        $userRole = User::where('email', $request->user()->email)->first()->role;
-
+        $userRole = User::where('email', $request->user()->email)->value('role');
+        
         if ($role === 'admin' && $userRole === 'admin') {
             return $next($request);
         } else if ($role === 'user' && $userRole === 'user') {
+         
             return $next($request); // Allow users to access user-specific routes
         } else {
             abort(403, 'Unauthorized action. You do not have the required role.');

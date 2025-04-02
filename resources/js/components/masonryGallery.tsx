@@ -36,7 +36,7 @@ const MasonryGallery = ({ }) => {
                     <img
                         src={`${image.src}`}
                         alt={image.alt}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                        className="h-full w-full object-cover transition-all duration-500 hover:scale-110"
                         style={{ aspectRatio: image.id % 2 === 0 ? '3/4' : '4/3' }}
                     />
                     {hoveredId === image.id && (

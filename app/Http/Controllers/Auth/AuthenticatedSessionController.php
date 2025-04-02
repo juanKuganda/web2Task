@@ -33,7 +33,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('landing');
+        $request->user()->refresh();
+
+        return redirect('landing')->with('auth', [
+            'user' => $request->user(),
+            'role' => $request->user()->role,
+        ]);;
     }
 
     /**
@@ -45,6 +50,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
 
         return redirect('/');
     }
